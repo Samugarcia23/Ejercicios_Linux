@@ -80,7 +80,7 @@ mkdir PRUEBA/{ dir1,\
 
 Copiar el archivo /etc/motd a un archivo llamado mensaje de vuestro directorio PRUEBA.
 
-cp /etc/motd ./PRUEBA
+cp /etc/motd ./PRUEBA/mensaje
 
 Copiar mensaje en dir1, dir2 y dir3.
 
@@ -93,43 +93,44 @@ Comprobar el ejercicio anterior mediante un solo comando.
 
 Copiar los archivos del directorio rc.d que se encuentra en /etc al directorio dir31.
 
-
+ cp -r /etc/rc.d dir3
 
 Copiar en el directorio dir311 los archivos de /bin que tengan una a como segunda letra y su nombre tenga cuatro letras.
 
-
+cp -r /bin/?a?? PRUEBA/dir3/dir31/dir311
 
 Copiar el directorio de otro usuario y sus subdirectorios debajo de dir11 (incluido el propio directorio).
 
-
+sudo cp -r ../user_other PRUEBA/dir1/dir11
+cp -r ../user PRUEBA/dir1/dir11
 
 Mover el directorio dir31 y sus subdirectorios debajo de dir2.
 
-
+mv PRUEBA/dir3/dir31 PRUEBA/dir2
 
 Mostrar por pantalla los archivos ordinarios del directorio HOME y sus subdirectorios.
 
-
+ls -R $HOME
 
 Ocultar el archivo mensaje del directorio dir3.
 
-
+mv PRUEBA/dir3/mensaje PRUEBA/dir3/.mensaje
 
 Borrar los archivos y directorios de dir1, incluido el propio directorio.
 
-
+rm -rf PRUEBA/dir1
 
 Copiar al directorio dir312 los ficheros del directorio /dev que empiecen por t, acaben en una letra que vaya de la a a la b y tengan cinco letras en su nombre.
 
-
+ls /dev/t???[a*b]
 
 Borrar los archivos de dir312 que no acaben en b y tengan una q como cuarta letra.
 
-
+find dir312 -type f -regex ".*???q[^b$]" -exec rm -r {} \;
 
 Mover el directorio dir312 debajo de dir3.
 
-
+mv PRUEBA/dir2/dir31/dir312 PRUEBA/dir3
 
 Crear un enlace simbólico al directorio dir1 dentro del directorio dir3 llamado enlacedir1.
 
