@@ -134,147 +134,211 @@ mv PRUEBA/dir2/dir31/dir312 PRUEBA/dir3
 
 Crear un enlace simbólico al directorio dir1 dentro del directorio dir3 llamado enlacedir1.
 
-
+ln -s /home/usuario1/PRUEBA/dir1 PRUEBA/dir3/enlacedir1
 
 Posicionarse en dir3 y, empleando el enlace creado en el ejercicio anterior, crear el directorio nuevo1 dentro de dir1.
 
-
+cd PRUEBA/dir3 
+mkdir enlacedir1/nuevo1
 
 Utilizando el enlace creado copiar los archivos que empiecen por u del directorio /bin en directorio nuevo1.
 
-
+cp -r /bin/u* enlacedir1/nuevo1/
 
 Crear dos enlaces duros del fichero fich1, llamarlo enlace, en los directorios dir1 y dir2.
 
-
+ln fich1 dir1/enlace
+ln fich1 dir2/enlac
 
 Borrar el archivo fich1 y copiar enlace en dir3.
 
-
+rm fich1 
+cp dir1/enlace dir3/ 
+ln -s /home/usuario1/PRUEBA/dir2/enlace /home/usuario1/PRUEBA/dir1/enlafich1
 
 Crear un enlace simbólico (llamado enlafich1) al fichero enlace de dir2 en dir1.
 
-
+ln -s dir2/enlace dir1/enlafich1
 
 Posicionarse en dir1 y, mediante el enlace creado, copiar el archivo fichl dentro de dir311.
 
-
+cd dir1 dir1
+cp enlafich1 ../dir2/dir31/dir311/fich1
 
 Seguir en dir1 y, mediante el enlace creado, sacar por pantalla las líneas que tiene el archivo fich1.
 
-
+dir1$ cat enlafich1
 
 Borrar el fichero fich1 de dir2.
 
-
+PRUEBA$ rm dir2/fich1
 
 Borrar todos los archivos y directorios creados durante los ejercicios.
 
-
+rm -r *
 
 Crear el directorio dir2 y dir3 en el directorio PRUEBA ¿Cuáles son los actuales permisos del directorio dir2?
 
-
+mkdir dir1 dir2
 
 Utilizando la notación simbólica, eliminar todos los permisos de escritura (propietario, grupo, otros) del directorio dir2.
 
-
+chmod = dir1
 
 Utilizando la notación octal, eliminar el permiso de lectura del directorio dir2, al resto de los usuarios.
 
-
+chmod 751 dir2
 
 ¿Cuáles son ahora los permisos asociados a dir2?
 
-
+ls -la ./dir2
 
 Crear bajo dir2, un directorio llamado dir2l.
 
-
+mkdir dir2/dir21  no se puede crea
 
 Concederse a sí mismo permiso de escritura en el directorio dir2 e intentar de nuevo el paso anterior.
 
-
+chmod 200 dir1 
+ls -l 
+mkdir dir1/dir21 mkdir: no se puede crear el directorio «dir1/dir21»: Permiso denegado
 
 ¿Cuáles son los valores por omisión asignados a los archivos?
 
-
+touch dir1/{file1,file2,file3} 
+PRUEBA$ ls -l dir
 
 Cambiar el directorio actual al directorio dir3. Imprimir su trayectoria completa para verificar el cambio.
 
-
+ls  dir1  dir2  dir3 
+mv dir1 dir3/ 
+ls -lR
+ .:  
+ ./dir2:  
+ ./dir2/dir21:  
+ ./dir3:  
+ ./dir3/dir1:
 
 ¿Cuáles son los permisos asignados en su momento a este directorio?
 
-
+./dir3:
 
 Reiniciar el ordenador.
 
-
+sudo reboot
 
 Crear cuatro nuevos directorios llamados dira, dirb, dirc, y dird bajo el directorio actual.
 
-
+mkdir dira dirb dirc dird
 
 Comprobar los permisos de acceso de los directorios recién creados para comprobar el funcionamiento del comando umask.
 
-
+ls -l
 
 Crear el fichero uno . Quitarle todos los permisos de lectura. Comprobarlo. Intentar borrar dicho fichero.
 
-
+touch uno 
+chmod a-r uno 
+ls -l 
+rm uno 
+_
 
 Quitarle todos los permisos de paso al directorio dir2 y otorgarle todos los demás.
 
-
+chmod = dir2 
+chmod o=rwx dir2
 
 Crear en el directorio propio:
-
-
-
 El directorio carpeta1 con los tres permisos para el propietario, dentro de él fich1 con lectura y escritura para todos y fich2 con lectura y escritura para el propietario y solo lectura para el resto. El directorio carpeta2 con todos los permisos para el propietario y lectura y ejecución para los del mismo grupo. Dentro file1 con lectura y escritura para el propietario y los del grupo y file2 con los mismos para el propietario y solo lectura para el grupo.
 
-
+mkdir carpeta1 carpeta2 
+chmod u=rwx,g=,o=   carpeta1 
+chmod u=rwx,g=rx,o= carpeta2 
+ls -l $ touch carpeta1/{fich1,fich2}  
+chmod = carpeta1/{fich1,fich2}  
+chmod o=rw         carpeta1/fich1  
+ls -l carpeta1
+$ touch carpeta2/{file1,file2}
+chmod = carpeta2/{file1,file2} 
+chmod u=rw,g=rw carpeta2/file1  
+chmod u=rw,g=r  carpeta2/file2  
+ls -l carpeta2
 
 Desde otro usuario probar todas las operaciones que se pueden hacer en los ficheros y directorios creados.
 
-
+su us3rlinux  
+Contraseña:
+## carpeta1 ##
+# prueba de acceso 
+us3rlinux@equipo1:/home/usuario1/PRUEBA$ cd carpeta1
+bash: cd: carpeta1: Permiso denegado 
+# prueba de lectura 
+us3rlinux@equipo1:/home/usuario1/PRUEBA$ ls carpeta1 
+ls: no se puede abrir el directorio carpeta1: Permiso denegado
+## carpeta2 ## 
+# prueba de acceso 
+us3rlinux@equipo1:/home/usuario1/PRUEBA$ cd carpeta2 
+# prueba de lectura 
+us3rlinux@equipo1:/home/usuario1/PRUEBA/carpeta2$ ls -l 
+total 0
+ -rw-rw---- 1 usuario1 usuario1 0 2009-12-08 09:41 file1 
+ -rw-r----- 1 usuario1 usuario1 0 2009-12-08 09:41 file2
+ # prueba de lectura 
+ us3rlinux@equipo1:/home/usuario1/PRUEBA/carpeta2$ cat file1 
+ us3rlinux@equipo1:/home/usuario1/PRUEBA/carpeta2$ cat file2
+ # prueba de escritura 
+ us3rlinux@equipo1:/home/usuario1/PRUEBA/carpeta2$ echo 'hola' > file1 
+ us3rlinux@equipo1:/home/usuario1/PRUEBA/carpeta2$ echo 'hola' > file2 
+ bash: file2: Permiso denegado 
+ exit
+ us3rlinux@equipo1:/home/usuario1/PRUEBA$ whoami
+ us3rlinux
+ us3rlinux@equipo1:/home/usuario1/PRUEBA$ exit 
+ exit
+ usuario1@equipo1:~/PRUEBA$ whoami
+ usuario1 
+ usuario1@equipo1:~/PRUEBA$
 
 Visualizar la trayectoria completa del directorio actual. Crear dos directorios llamados correo y fuentes debajo del directorio actual.
 
-
+pwd /home/usuario1/PRUEBA 
+mkdir correo fuentes
 
 Posicionarse en el directorio fuentes y crear los directorios dir1, dir2, dir3.
 
-
+cd fuentes 
+mkdir dir1 dir2 dir3
 
 Crear el directorio menus bajo correo sin moverse del directorio actual.
 
-
+mkdir ../correo/menus
 
 Posicionarse en el directorio HOME. Borrar los directorios que cuelgan de fuentes que acaben en un número que no sea el 1.
 
-
+cd $HOME 
+find PRUEBA/fuentes -type d -name "*1" -exec rm -r {} \;
 
 Ver si existe el archivo tty2 en el directorio dev. En caso de que exista, ver su fecha de creación o actualización.
 
-
+find PRUEBA/fuentes/* -type d -regex ".*[0,2,3,4,5,6,7,8,9]" -exec rm -r {} \; 
+find PRUEBA/fuentes/* -type d -regex ".*[^1]" -exec rm -r {} \;
 
 Ver los permisos que tienen los archivos que empiecen por tt del directorio /dev.
 
-
+ls -l /dev/tt*
 
 Visualizar la lista de los archivos ordinarios que están en el directorio /usr/bin.
 
-
+find /usr/bin -type f
 
 Visualizar la lista de todos los directorios que cuelgan del raíz.
 
-
+ls / 
+find / -maxdepth 1 -type d
 
 Visualizar la lista de todos los ficheros que pertenezcan a root.
 
-
+find / -user root -type f
 
 Visualizar la lista de todos los ficheros .h del directorio /usr/include.
 
